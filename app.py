@@ -13,7 +13,7 @@ import json
 sql_engine = create_engine('postgresql+psycopg2://etl_user:etl_password@host.docker.internal/test_etl_db')
 
 #Request list of pokemon games
-str_url_pokemon_games = 'https://pokeapi.co/api/v2/generation/3/'
+str_url_pokemon_games = 'https://pokeapi.co/api/v2/generation/4/'
 response_pokemon_games = requests.get(str_url_pokemon_games)
 
 #Get the different pokemon versions games
