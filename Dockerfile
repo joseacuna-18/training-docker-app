@@ -11,7 +11,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 #05 Copy script
-COPY app.py .
+COPY app/app.py .
 
 #06 Specify entry point
 ENTRYPOINT ["python", "app.py"]

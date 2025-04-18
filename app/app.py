@@ -1,6 +1,7 @@
 #Load libraries for data management
 import pandas as pd
 import numpy as np
+import os
 
 #Load libraries for connecting with database
 from sqlalchemy import create_engine
@@ -9,8 +10,14 @@ from sqlalchemy import create_engine
 import requests
 import json
 
+#Obtain the secrets to connect to SQL server
+secret_path = os.environ.get('SECRET_PATH', '/app/secret/secret.json')
+
+with open(secret_path, 'r') as f:
+    secrets = json.load(f)
+
 #Define connection to Postgres Database
-sql_engine = create_engine('postgresql+psycopg2://etl_user:etl_password@host.docker.internal/test_etl_db')
+sql_engine = create_engine(f'postgresql+psycopg2://{secrets['db_user']}:{secrets['db_password']}@host.docker.internal/test_etl_db')
 
 #Request list of pokemon games
 str_url_pokemon_games = 'https://pokeapi.co/api/v2/generation/5/'
