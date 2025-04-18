@@ -17,7 +17,7 @@ with open(secret_path, 'r') as f:
     secrets = json.load(f)
 
 #Define connection to Postgres Database
-sql_engine = create_engine(f'postgresql+psycopg2://{secrets['db_user']}:{secrets['db_password']}@host.docker.internal/test_etl_db')
+sql_engine = create_engine(f"postgresql+psycopg2://{secrets['db_user']}:{secrets['db_password']}@host.docker.internal/test_etl_db")
 
 #Request list of pokemon games
 str_url_pokemon_games = 'https://pokeapi.co/api/v2/generation/5/'

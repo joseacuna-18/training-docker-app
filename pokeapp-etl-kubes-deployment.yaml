@@ -1,0 +1,38 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: pokeapp-etl-kubes-cronjob
+spec:
+  schedule: "*/2 * * * *"
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      backoffLimit: 3  # Retry 3 times if it fails
+      template:
+        metadata:
+          labels:
+            app: pokeapp-etl-kubes
+        spec:
+          hostNetwork: true  # Use host network
+          dnsPolicy: ClusterFirstWithHostNet
+          containers:
+          - name: pokeapp-etl-kubes-container
+            image: ghcr.io/joseacuna-18/training-docker-app
+            imagePullPolicy: Always
+            ports:
+            - containerPort: 8079
+            volumeMounts:
+              - name: secret-volume
+                mountPath: "/app/secret"
+                readOnly: true
+            env:
+              - name: SECRET_PATH
+                value: "secret/secrets.json"
+          imagePullSecrets:
+            - name: dockerconfigjson-github-com
+          restartPolicy: Never
+          volumes:
+          - name: secret-volume
+            secret:
+              secretName: poke-etl-database
